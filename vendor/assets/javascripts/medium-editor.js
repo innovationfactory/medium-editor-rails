@@ -2487,13 +2487,16 @@ MediumEditor.extensions = {};
 
             targets = MediumEditor.util.isElement(targets) || [win, doc].indexOf(targets) > -1 ? [targets] : targets;
 
-            Array.prototype.forEach.call(targets, function (target) {
+            if(typeof(targets) !== 'undefined'){
+              Array.prototype.forEach.call(targets, function (target) {
                 index = this.indexOfListener(target, event, listener, useCapture);
                 if (index !== -1) {
-                    e = this.events.splice(index, 1)[0];
-                    e[0].removeEventListener(e[1], e[2], e[3]);
+                  e = this.events.splice(index, 1)[0];
+                  e[0].removeEventListener(e[1], e[2], e[3]);
                 }
-            }.bind(this));
+              }.bind(this));
+            }
+
         },
 
         indexOfListener: function (target, event, listener, useCapture) {
@@ -4049,7 +4052,7 @@ MediumEditor.extensions = {};
                 return true;
             }
 
-            if (this.previewValueSelector) {
+            if (this.previewValueSelector && typeof(anchorEl.attributes.href) !== 'undefined') {
                 this.anchorPreview.querySelector(this.previewValueSelector).textContent = anchorEl.attributes.href.value;
                 this.anchorPreview.querySelector(this.previewValueSelector).href = anchorEl.attributes.href.value;
             }
